@@ -12,23 +12,37 @@ import player as p
 
 
 
+
+
+
+
 n=104
-cards = [i for i in range(1,n+1)]
+cards = [i for i in range(1,n+1)] 
+card_points = [point(i+1) for i in range(n)] #point associated to the i+1 card
 
 player_number = 5
 
 
 ##Init
 #
-board = np.zeros((4,5)) 
-board[:,0] = r.sample(cards,4)
+
+board = p.Board(r.sample(cards,4))
 for i in range(4):
-    cards.remove(board[i,0])
+    cards.remove(board.lasts[i])
 
 hands = r.sample(cards,player_number*10)
 
-def next_state(board,cards) : #computes the next state of the board 
+
+#look for the line the card has to go
+
+
+
+#computes the next state of the board 
+def next_state(board,cards) :
     #comment pas trop salement retrouver qui a poser quelle carte quand il doit perdre des points ?
+    #PAS BO
+    sorted_cards = np.sort(cards)
+    
     print("salut sava ?")
     return "holé"
 
@@ -43,7 +57,7 @@ cards_played = np.zeros(player_number)
 for i in range(10):
     for j in range(player_number):
         cards_played[j] = play[j].move(board)
-    next_state(board,cards_played)
+    board.next_state(cards_played,play)
     
     
 ##Game finish
