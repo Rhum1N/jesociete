@@ -26,23 +26,29 @@ for i in range(4):
     cards.remove(board[i,0])
 
 hands = r.sample(cards,player_number*10)
-hands = np.reshape(hands,(player_number,10))
 
 def next_state(board,cards) : #computes the next state of the board 
     #comment pas trop salement retrouver qui a poser quelle carte quand il doit perdre des points ?
+    print("salut sava ?")
     return "holé"
 
 
 #players init
 play = []
 for i in range(player_number) :
-    play.append(p.Player(hands[i,:]))
+    play.append(p.Player(hands[i*10:(i+1)*10]))
     
 ##Game on
 cards_played = np.zeros(player_number)
 for i in range(10):
     for j in range(player_number):
-        cards_played[i] = p[i].move(board)
+        cards_played[j] = play[j].move(board)
+    next_state(board,cards_played)
+    
+    
+##Game finish
+score = [i.score for i in play]
+print("The winner is ",np.argmax(score))
         
     
     

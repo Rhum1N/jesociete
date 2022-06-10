@@ -15,5 +15,6 @@ class Player:
         
         
     def move(self,board) :
-        
-        return "salut"
+        c = self.hand[-1]
+        self.hand.pop()
+        return c
