@@ -42,24 +42,13 @@ for i in range(4):
 hands = r.sample(cards,player_number*10)
 
 
-#look for the line the card has to go
-
-
-
-#computes the next state of the board
-def next_state(board,cards) :
-    #comment pas trop salement retrouver qui a poser quelle carte quand il doit perdre des points ?
-    #PAS BO
-    sorted_cards = np.sort(cards)
-
-    print("salut sava ?")
-    return "holé"
 
 
 #players init
 play = []
-for i in range(player_number) :
+for i in range(player_number-1) :
     play.append(p.Player(hands[i*10:(i+1)*10]))
+play.append(p.Player2(hands[(player_number-1)*10:]))
 
 ##Game on
 cards_played = [0 for i in range(player_number)]
@@ -74,7 +63,7 @@ for i in range(10):
 
 ##Game finish
 score = [i.score for i in play]
-print("The winner is ",np.argmax(score))
+print("The looser is ",np.argmax(score))
 
 
 

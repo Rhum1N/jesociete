@@ -5,8 +5,10 @@ Created on Fri Jun 10 15:52:51 2022
 @author: rnamyst
 """
 import numpy as np
+from abc import ABC, abstractmethod
 
-class Player:
+#Player interface
+class Boss(ABC) :
     hand = []
     strategy = ""
     score = 0
@@ -16,14 +18,44 @@ class Player:
         
     #chooses the card to play according to the board state
     #this one is a dummy
+    @abstractmethod
     def move(self,board) :
-        c = self.hand[-1]
-        l = 0 #line to remove if needed
-        self.hand.pop()
-        return c,l
+       pass
     
     def addscore(self,pts):
         self.score += pts
+    
+
+    
+    
+    
+    
+class Player(Boss):
+    # hand = []
+    # strategy = ""
+    # score = 0
+    
+    # def __init__(self,cards) :
+    #     self.hand = cards
+        
+    #chooses the card to play according to the board state
+    #this one is a dummy
+    def move(self,board) :
+        c = self.hand[-1]
+        l = np.argmin(board.score_per_line)
+        self.hand.pop()
+        return c,l
+    
+    # def addscore(self,pts):
+    #     self.score += pts
+    
+class Player2(Boss) :
+    def move(self,board) :
+        index_c = np.argmax(self.hand)
+        c = self.hand[index_c]
+        np.delete(self.hand,index_c)
+        l = np.argmin(board.score_per_line)
+        return c,l
 
     
 class Board:
