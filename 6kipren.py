@@ -52,12 +52,11 @@ play.append(p.Player2(hands[(player_number-1)*10:]))
 
 ##Game on
 cards_played = [0 for i in range(player_number)]
-line_choice = [0 for i in range(player_number)]
 print(board.state)
 for i in range(10):
     for j in range(player_number):
-        cards_played[j],line_choice[j] = play[j].move(board)
-    board.next_state(cards_played,line_choice,play)
+        cards_played[j] = play[j].move(board)
+    board.next_state(cards_played,play)
     print(cards_played)
     print("tour ",i+1,board.state)
 

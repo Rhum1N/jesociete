@@ -22,6 +22,11 @@ class Boss(ABC) :
     def move(self,board) :
        pass
     
+    @abstractmethod
+    def choose_line(self,board) :
+       pass
+    
+    
     def addscore(self,pts):
         self.score += pts
     
@@ -42,20 +47,25 @@ class Player(Boss):
     #this one is a dummy
     def move(self,board) :
         c = self.hand[-1]
-        l = np.argmin(board.score_per_line)
         self.hand.pop()
-        return c,l
+        return c
     
-    # def addscore(self,pts):
-    #     self.score += pts
+    def choose_line(self,board) :
+        l = np.argmin(board.score_per_line)
+        return l
+
+
     
 class Player2(Boss) :
     def move(self,board) :
         index_c = np.argmax(self.hand)
         c = self.hand[index_c]
         np.delete(self.hand,index_c)
+        return c
+    
+    def choose_line(self,board) :
         l = np.argmin(board.score_per_line)
-        return c,l
+        return l
 
     
 class Board:
@@ -77,14 +87,14 @@ class Board:
         self.state[index] = [c]
         
     #update the board with the newly played cards
-    def next_state(self,cards,line_choice,play) :
+    def next_state(self,cards,play) :
         sortCards = np.sort(cards)
         for c in sortCards :
             index_player = np.where(cards == c)[0][0] 
             if c < min(self.lasts) :
                 print("caca")
                 #Erase a column and add points to the player
-                l = line_choice[index_player]
+                l = play[index_player].choose_line(self)
                 play[index_player].addscore(self.score_per_line[l])
                 self.remove_line(l,c)
             else :
