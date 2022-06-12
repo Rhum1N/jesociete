@@ -6,19 +6,22 @@ class Card:
         self.value = value
         self.point = 0
 
-        self.generate_point()
+        self._generate_point()
 
     def get_point(self):
+        """ Returns penalties points hold by card"""
         return self.point
 
     def get_value(self):
+        """ Returns displayed value"""
         return self.value
 
-    def generate_point(self):
-        point = _point_value_generation(self.value)
+    def _generate_point(self):
+        """ Generate penalty points and store it"""
+        point = self._point_value_generation(self.value)
         self.point = point
 
-    def _point_value_generation(value: int) -> int:
+    def _point_value_generation(self, value: int) -> int:
         """ Generates point of a card based on its value"""
         point = 0
         if value % 11 == 0:
@@ -30,3 +33,9 @@ class Card:
             point += 2
 
         return max(1, point)
+
+    def __str__(self):
+        return str(self.get_value())
+
+    def __repr__(self):
+        return self.__str__()
