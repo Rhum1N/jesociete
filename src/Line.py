@@ -28,11 +28,11 @@ class Line:
         return self.cards
 
     def insert_card(self, card: Card) -> int:
-        nb_card = self.get_nb_cards(self)
+        nb_card = self.get_nb_cards()
 
         # when adding last card into line
         # return total value of line and re init cards
-        if nb_card == self.max_card - 1:
+        if nb_card == self.max_card - 1 or card.get_value() < self.get_last_value():
             value = self.get_total_point()
             self.cards = [None] * self.max_card
             self.cards[0] = card
@@ -41,6 +41,12 @@ class Line:
         self.cards[nb_card] = card
         return 0
 
-    def get_last_value():
+    def get_last_value(self):
         nb_card = self.get_nb_cards()
         return self.cards[nb_card-1].get_value()
+
+    def __str__(self):
+        return str(self.cards)
+
+    def __repr__(self):
+        return self.__str__()

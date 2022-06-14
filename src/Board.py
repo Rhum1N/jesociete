@@ -30,17 +30,20 @@ class Board:
                 value = self.add_card_to_line(c)
                 # Player must select a line
                 if value == -1:
-                    line = p.map_choice(self.lines, None, None) # TODO: send data to players
+                    line = p.map_choice(self.lines) # TODO: send data to players
                     p.add_point(line.insert_card(c))
                     # TODO: emergency map choice call
                     # TODO: timeout
                 else:
                     p.add_point(value)
+                p.remove_card(c)
             
             # send data to players
             for p in self.players:
-                for c, _ in played_cards:
+                for _,c_ in played_cards:
                     p.add_played_value(c.get_value())
+
+        self.display_lines()
 
     def distribute_cards(self):
         for _ in range(self.nb_player_card):
@@ -48,8 +51,24 @@ class Board:
                 card = self.deck.get_card()
                 p.add_card(card)
 
-    def add_card_to_line(self, card: Card):
+    def add_card_to_line(self, card: Card) -> int:
         # find if card is lower than any line lower
-        # find closer lower line
+        min_offset = self.nb_card
+        line = None
+        for l in self.lines:
+            last_value = l.get_last_value()
+            if last_value > card.get_value():
+                continue
+            if last_value < min_offset:
+                if card.get_value() - last_value > 0:
+                    min_offset = card.get_value() - last_value
+                    line = l
+        if line is None:
+            return -1
+
         # add card to line
-        raise NotImplementedError("add card to line")
+        return line.insert_card(card)
+
+    def display_lines(self):
+        for l in self.lines:
+            print(l)
