@@ -40,3 +40,6 @@ class PlayerInterface:
 
     def add_card(self, card):
         self.cards.append(card)
+
+    def __repr__(self):
+        return f"{self.name}: {self.points}pts"

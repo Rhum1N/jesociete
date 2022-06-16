@@ -44,6 +44,7 @@ class Board:
                     p.add_played_value(c.get_value())
 
         self.display_lines()
+        self.display_players()
 
     def distribute_cards(self):
         for _ in range(self.nb_player_card):
@@ -57,9 +58,7 @@ class Board:
         line = None
         for l in self.lines:
             last_value = l.get_last_value()
-            if last_value > card.get_value():
-                continue
-            if last_value < min_offset:
+            if last_value < card.get_value() and last_value < min_offset:
                 if card.get_value() - last_value > 0:
                     min_offset = card.get_value() - last_value
                     line = l
@@ -72,3 +71,7 @@ class Board:
     def display_lines(self):
         for l in self.lines:
             print(l)
+
+    def display_players(self):
+        for p in self.players:
+            print(p)
